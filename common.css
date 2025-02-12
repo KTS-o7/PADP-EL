@@ -1,0 +1,243 @@
+:root {
+    --primary-color: #2c3e50;     /* Dark blue-gray for primary elements */
+    --secondary-color: #3498db;   /* Vibrant blue for secondary elements */
+    --accent-color: #e67e22;      /* Warm orange for accents */
+    --background-light: #f8f9fa;  /* Light background color */
+    --text-dark: #2c3e50;         /* Dark text color */
+    --text-light: #ffffff;        /* Light text color */
+    --success-color: #27ae60;     /* Fresh green for positive indicators */
+    --warning-color: #f1c40f;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+}
+
+/* Base styles */
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.container {
+    padding: 2rem 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Navigation */
+.navbar {
+    background-color: var(--primary-color) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 0.75rem 1.5rem;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: var(--text-light) !important;
+    font-size: 1.3rem;
+    letter-spacing: -0.5px;
+}
+
+.nav-link {
+    color: var(--text-light) !important;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem !important;
+    border-radius: 4px;
+    margin: 0 0.25rem;
+}
+
+.nav-link:hover {
+    color: var(--accent-color) !important;
+}
+
+.nav-item.active .nav-link {
+    color: var(--accent-color) !important;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+/* Charts */
+.config-chart {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    transition: transform var(--transition-speed) ease;
+}
+
+.config-chart:hover {
+    transform: translateY(-3px);
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    background: var(--text-light);
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1.5rem;
+    font-weight: 600;
+    border-bottom: none;
+}
+
+.card-body {
+    padding: 1.5rem;
+    background-color: rgba(52, 152, 219, 0.03);
+}
+
+.card-title {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Form Elements */
+.form-range {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+}
+
+.form-range::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    background-color: var(--secondary-color);
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+/* Buttons and Interactive Elements */
+.btn {
+    transition: all var(--transition-speed) ease;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    padding: 0.5rem 1.5rem;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem 1rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+    
+    .config-chart {
+        margin: 1rem 0;
+        padding: 1rem;
+    }
+}
+
+.bi {
+    margin-right: 0.5rem;
+}
+
+/* Add this to the card header styles */
+.card-header h2 {
+    color: white !important;
+    font-size: 1.75rem;
+}
+
+/* Update text-muted color to match other pages */
+.text-muted {
+    color: #6c757d !important;
+}
+
+.lead {
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Navigation Cards */
+.navigation-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.navigation-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+.card-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.card-icon svg {
+    width: 32px;
+    height: 32px;
+    stroke: white;
+}
+
+.bg-primary { background-color: var(--secondary-color) !important; }
+.bg-success { background-color: var(--success-color) !important; }
+.bg-warning { background-color: var(--accent-color) !important; }
+
+.info-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.display-4 {
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    color: var(--primary-color);
+} 

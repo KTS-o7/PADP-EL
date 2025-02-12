@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link href="tomasulo.css" rel="stylesheet" type="text/css" />
+    <!-- Add Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+      crossorigin="anonymous"
+    />
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.11.0/underscore.js"></script>
+    <script src="tomasulo.js"></script>
+    <link rel="stylesheet" href="../common.css" />
+    <title>Tomasulo algorithm simulator (protoype)</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="../index.html">CPU Visualization Tools</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">Home</a>
+            </li>
+            <li>
+              <a class="nav-link" href="../Amdhals_Law/index.html"
+                >Amdahl's Law</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../OpenMP_Schedule/index.html"
+                >OpenMP Schedule</a
+              >
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link active" href="index.html"
+                >Tomasulo Visualization</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div id="instructions">
+      <h1>Tomasulo algorithm simulator (protoype)</h1>
+      <p>
+        This simulatesTomasulo's algorithm for a floating-point MIPS-like
+        instruction pipeline, demonstrating out-of-order execution. The source
+        is on
+        <a href="https://github.com/KTS-o7/PADP-EL">GitHub</a>.
+      </p>
+      <p>
+        Color codes are as follows:
+        <i class="destination">destination</i>
+        <i class="source">source</i>
+        <i class="sourceOccupied">occupied source</i>
+        <i class="destinationOccupied">occupied destination</i>.
+      </p>
+    </div>
+
+    <!-- Add Bootstrap JS before closing body tag -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
