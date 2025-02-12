@@ -1,0 +1,96 @@
+.invisible {
+  opacity: 0;
+}
+
+.moving-element {
+  position: absolute;
+}
+
+#page-container {
+  position: relative;
+}
+
+#page {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.array-element {
+  width: 50px;
+  height: 50px;
+  background-color: #cccccc;
+  margin: 5px;
+
+  color: #000000;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+  overflow: hidden;
+}
+
+.array-element-active {
+}
+
+.array-element-inactive {
+  filter: brightness(0.5);
+}
+
+.processor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50pt;
+  vertical-align: text-top;
+}
+
+.processor-body {
+  border: #6f42c1 5px solid;
+}
+
+.processor-arrow-head {
+}
+
+#array-container {
+  /*display: inline;*/
+  position: absolute;
+  left: 400px;
+  top: 0;
+  padding: 30px;
+}
+
+#array-border {
+  padding: 5px;
+  border: 5px solid #1b1e21;
+}
+
+.thread-0 {
+  background-color: #df9913;
+  stroke: #df9913;
+  fill: #df9913;
+}
+
+.thread-1 {
+  background-color: #b3d712;
+  stroke: #b3d712;
+  fill: #b3d712;
+}
+
+.thread-2 {
+  background-color: #950d8f;
+  stroke: #950d8f;
+  fill: #950d8f;
+}
+
+.thread-3 {
+  background-color: #1a4395;
+  stroke: #1a4395;
+  fill: #1a4395;
+}
+
+.clear-background-color {
+  background-color: transparent;
+}
