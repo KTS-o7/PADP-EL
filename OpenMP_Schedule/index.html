@@ -2,349 +2,660 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>OpenMP Schedule</title>
+    <title>OpenMP Schedules</title>
+    <link rel="stylesheet" href="symbols.css" />
+    <link rel="stylesheet" href="../common.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="../common.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+    />
   </head>
   <body>
-    <!-- Move navbar outside container -->
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="../index.html">CPU Visualization Tools</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="../index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../Amdhals_Law/index.html"
-                >Amdahl's Law</a
-              >
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link active" href="index.html">OpenMP Schedule</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../Tomasulo_Visualization/index.html"
-                >Tomasulo Visualization</a
-              >
-            </li>
-          </ul>
+    <div class="container">
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="../index.html"
+            >CPU Visualization Tools</a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="../index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../Amdhals_Law/index.html"
+                  >Amdahl's Law</a
+                >
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link active" href="index.html">OpenMP Schedule</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../Tomasulo_Visualization/index.html"
+                  >Tomasulo Visualization</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
-
-    <div class="container mt-4">
-      <div class="card mb-4">
-        <div class="card-body">
-          <h3 class="card-title">OpenMP Scheduling Simulator</h3>
-          <p class="card-text">
-            Explore different OpenMP scheduling strategies:
-          </p>
-          <div class="row">
-            <div class="col-md-6">
-              <ul>
-                <li><strong>Static:</strong> Predictable chunk distribution</li>
-                <li><strong>Dynamic:</strong> Adaptive workload balancing</li>
-                <li><strong>Guided:</strong> Decreasing chunk sizes</li>
-              </ul>
+      </nav>
+      <div class="row my-2">
+        <div class="col-md-8">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5 id="schedule-title"></h5>
             </div>
-            <div class="col-md-6">
-              <div class="alert alert-warning">
-                <strong>Parameters:</strong>
-                <ul class="mb-0">
-                  <li>Adjust runtime ratio</li>
-                  <li>Modify parallel percentage</li>
-                  <li>Observe speedup curves</li>
-                </ul>
-              </div>
+            <div class="card-body">
+              <code id="schedule-code" class=""></code>
+              <p id="schedule-description" class=""></p>
+              <blockquote class="blockquote">
+                <footer
+                  id="schedule-description-citation"
+                  class="blockquote-footer invisible"
+                >
+                  From the
+                  <a
+                    href="https://www.openmp.org/spec-html/5.1/openmpsu48.html#x73-730002.11.4"
+                  >
+                    OpenMP Specification 5.1
+                  </a>
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+          <div id="page-container">
+            <div id="page"></div>
+          </div>
+
+          <div id="templates">
+            <div
+              id="processor-template"
+              class="processor invisible clear-background-color"
+              style="left: 0; top: 0"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="50px"
+                height="30px"
+              >
+                <polygon points="25 0, 0 15, 25 30"></polygon>
+                <line
+                  x1="50"
+                  y1="15"
+                  x2="25"
+                  y2="15"
+                  stroke-width="5"
+                  marker-end="url(#arrowhead)"
+                ></line>
+              </svg>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row my-2">
-        <div class="col-md-8">
-          <canvas
-            id="chart_bar"
-            class="config-chart"
-            width="800"
-            height="200"
-            aria-label="Configuration Chart Output"
-            role="img"
-          >
-            <p>
-              Your browser does not support drawing charts. Sorry about that.
-            </p>
-          </canvas>
-
-          <canvas
-            id="chart_runtime"
-            class="config-chart"
-            width="800"
-            height="300"
-            aria-label="Configuration Chart Output"
-            role="img"
-          >
-            <p>
-              Your browser does not support drawing charts. Sorry about that.
-            </p>
-          </canvas>
-          <canvas
-            id="chart_speedup"
-            class="config-chart"
-            width="800"
-            height="300"
-            aria-label="Configuration Chart Output"
-            role="img"
-          >
-            <p>
-              Your browser does not support drawing charts. Sorry about that.
-            </p>
-          </canvas>
-        </div>
         <div class="col-md-4">
-          <div class="card">
+          <div class="card mb-4">
             <div class="card-header">
-              <h5><i class="bi bi-file-earmark-arrow-up"></i> Data</h5>
+              <h5><i class="bi bi-gear"></i> Settings</h5>
             </div>
             <div class="card-body">
-              <label id="runtime-label" for="runtime" class="form-label"
-                >Program Runtime</label
+              <label
+                id="formNumElements-label"
+                for="formNumElements"
+                class="form-label"
+                >Elements</label
               >
               <input
-                id="runtime"
-                type="range"
-                class="form-range update-chart"
+                id="formNumElements"
+                type="number"
+                class="form-control mb-3"
                 min="1"
-                max="60"
-                value="30"
+                max="50"
+                value="10"
               />
 
               <label
-                id="parallel-label"
-                for="percentParallel"
+                id="formNumThreads-label"
+                for="formNumThreads"
                 class="form-label"
-                >Percent Parallel</label
+                >Threads</label
               >
               <input
-                id="percentParallel"
-                type="range"
-                class="form-range update-chart"
-                min="0"
-                max="120"
-                value="50"
+                id="formNumThreads"
+                type="number"
+                class="form-control mb-3"
+                min="1"
+                max="4"
+                value="2"
               />
+
+              <label
+                id="formSchedule-label"
+                for="formSchedule"
+                class="form-label"
+                >Schedule</label
+              >
+              <select
+                id="formSchedule"
+                class="form-select mb-3"
+                aria-label="Schedule"
+              >
+                <option selected value="static">Static</option>
+                <option value="dynamic">Dynamic</option>
+                <option value="guided">Guided</option>
+              </select>
+
+              <label
+                id="formBlockSize-label"
+                for="formBlockSize"
+                class="form-label"
+                >Chunk Size</label
+              >
+              <select
+                id="formBlockSize"
+                class="form-select mb-3"
+                aria-label="Chunk Size"
+              >
+                <option selected value="default">Default</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+
+              <label
+                id="formTimeLength-label"
+                for="formTimeLength"
+                class="form-label"
+                >Processing Time</label
+              >
+              <input
+                id="formTimeLength"
+                type="number"
+                class="form-control mb-3"
+                min="0"
+                max="3"
+                value="1"
+                step="0.5"
+              />
+
+              <label
+                id="formTimeRandom-label"
+                for="formTimeRandom"
+                class="form-label"
+                >Random Factor</label
+              >
+              <input
+                id="formTimeRandom"
+                type="number"
+                class="form-control mb-3"
+                min="0"
+                max="1"
+                value="0"
+                step="0.05"
+              />
+
+              <button id="startButton" class="btn btn-primary">Start</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h5><i class="bi bi-stopwatch"></i> Time</h5>
+            </div>
+            <div class="card-body">
+              <p id="timer-time">Not started.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <script
-      src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-      crossorigin="anonymous"
-    ></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
       crossorigin="anonymous"
     ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"
-      integrity="sha512-BqNYFBAzGfZDnIWSAEGZSD/QFKeVxms2dIBPfw11gZubWwKUjEgmFUtUls8vZ6xTRZN/jaXGHD/ZaxD9+fDo0A=="
-      crossorigin="anonymous"
-    ></script>
 
-    <script type="application/ecmascript">
-      function calculateRuntime(originalTime, percentParallel, numThreads) {
-          percentParallel /= 100.0;
-          return originalTime * (1 - percentParallel) + originalTime * percentParallel / numThreads;
+    <script type="module">
+      import anime from "../util/anime.es.js";
+
+      let page = document.getElementById("page");
+      let stepTime = null;
+      let stepRandom = null;
+
+      class Point {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+        }
+
+        add(other) {
+          return new Point(this.x + other.x, this.y + other.y);
+        }
+
+        subtract(other) {
+          return new Point(this.x - other.x, this.y - other.y);
+        }
+
+        toString() {
+          return "(" + this.x + ", " + this.y + ")";
+        }
       }
 
-      function getOriginalRuntime() {
-          return +document.getElementById("runtime").value;
+      function adjustForAnchor(element, point, anchor, inverse) {
+        let width = element.offsetWidth;
+        let height = element.offsetHeight;
+        if (inverse) {
+          width *= -1;
+          height *= -1;
+        }
+        switch (anchor) {
+          case "north west":
+            break;
+          case "north":
+            point.x += width;
+            break;
+          case "north east":
+            point.x += width;
+            break;
+          case "west":
+            point.y += height / 2;
+            break;
+          case "center":
+            point.x += width / 2;
+            point.y += height / 2;
+            break;
+          case "east":
+            point.x += width;
+            point.y += height / 2;
+            break;
+          case "south west":
+            point.y += height;
+            break;
+          case "south":
+            point.x += width / 2;
+            point.y += height;
+            break;
+          case "south east":
+            point.x += width;
+            point.y += height;
+            break;
+          default:
+            throw Error("Unknown anchor: " + anchor);
+        }
+        return point;
       }
 
-      function getPercentParallel() {
-          return +document.getElementById("percentParallel").value;
+      function getAnchorRelativeTo(element, anchor, ancestor) {
+        let currentElement = element;
+        let x = 0,
+          y = 0;
+        while (currentElement !== ancestor) {
+          x += currentElement.offsetLeft;
+          y += currentElement.offsetTop;
+          currentElement = currentElement.offsetParent;
+        }
+
+        return adjustForAnchor(element, new Point(x, y), anchor);
       }
 
-      function recalculateData() {
-          let originalRuntime = getOriginalRuntime();
-          let percentParallel = getPercentParallel();
-          $("#runtime-label").html("Program Runtime: " + originalRuntime + "s");
-          $("#parallel-label").html("Percent Parallel: " + percentParallel + "%");
-          return [...Array(20).keys()].map(input => calculateRuntime(originalRuntime, percentParallel, input))
+      function setPosition(
+        node,
+        point,
+        anchor = "north west",
+        complete,
+        options
+      ) {
+        let targetPos = adjustForAnchor(node, point, anchor, true);
+        anime({
+          targets: node,
+          left: targetPos.x,
+          top: targetPos.y,
+          complete: complete,
+          easing: "easeInOutExpo",
+          ...options,
+        });
       }
 
-      function recalculateDataSpeedup() {
-          let originalRuntime = getOriginalRuntime();
-          return recalculateData().map(item => originalRuntime / item);
+      function copyElementTo(element, target) {
+        let newNode = element.cloneNode(true);
+        target.appendChild(newNode);
+        newNode.classList.add("invisible");
+
+        let moveNode = element.cloneNode(true);
+        document
+          .querySelector("#moving-element-container")
+          .appendChild(moveNode);
+        let targetPosition = getAnchorRelativeTo(
+          newNode,
+          "north west",
+          document.querySelector("#page")
+        );
+        let currentPosition = getAnchorRelativeTo(
+          element,
+          "north west",
+          document.querySelector("#page")
+        );
+        moveNode.style.left = currentPosition.x;
+        moveNode.style.top = currentPosition.y;
+
+        moveNode.style.position = "absolute";
+        /*        anime({
+                    targets: moveNode,
+                    translateX: currentPosition.subtract(targetPosition).x,
+                    translateY: currentPosition.subtract(targetPosition).y,
+                })
+
+         */
       }
 
-      let chartRuntime = new Chart(
-          document.getElementById('chart_runtime'),
-          {
-              type: 'line',
-              data: {
-                  labels: [...Array(20).keys()],
-                  datasets: [
-                      {
-                          label: 'Runtime',
-                          backgroundColor: 'rgb(255, 99, 132)',
-                          borderColor: 'rgb(255, 99, 132)',
-                          data: recalculateData()
-                      }
-                  ]
-              },
-              options: {
-                  scales: {
-                      x: {
-                          title: {
-                              display: true,
-                              text: 'Number of Threads',
-                          },
-                          min: 1,
-                      },
-                      y: {
-                          title: {
-                              display: true,
-                              text: 'Parallel Runtime',
-                          },
-                          min: 0,
-                      },
-                  },
-                  plugins: {
-                      title: {
-                          display: true,
-                          text: 'Parallel Runtime'
-                      },
-                      legend: {
-                          display: false,
-                      },
-                  },
-              },
+      function getPosition(id) {
+        let element = document.getElementById(id);
+        return { x: element.offsetLeft, y: element.offsetTop };
+      }
+
+      function addExtraWorkItem(event) {
+        if (
+          Array.from(event.target.classList).includes("array-element-active")
+        ) {
+          event.target.textContent += "+";
+        }
+      }
+
+      function generateElements(num_elements) {
+        for (let i = 0; i < num_elements; i++) {
+          document.getElementById("array-border").innerHTML += `
+                <div id="element-${i}" class="array-element array-element-active"></div>`;
+        }
+        document
+          .querySelectorAll(`.array-element`)
+          .forEach((node) => node.addEventListener("click", addExtraWorkItem));
+      }
+
+      function applyStatic(block_size, num_threads, num_elements) {
+        for (let i = 0; i < num_elements; i++) {
+          let currentThread;
+          if (block_size === "default") {
+            currentThread =
+              Math.floor((i * num_threads) / num_elements) % num_threads;
+          } else {
+            currentThread = Math.floor(i / block_size) % num_threads;
           }
-      );
-
-      let chartSpeedup = new Chart(
-          document.getElementById('chart_speedup'),
-          {
-              type: 'line',
-              data: {
-                  labels: [...Array(20).keys()],
-                  datasets: [
-                      {
-                          label: 'Speedup',
-                          backgroundColor: 'rgb(255, 99, 132)',
-                          borderColor: 'rgb(255, 99, 132)',
-                          data: recalculateDataSpeedup(),
-                      }
-                  ]
-              },
-              options: {
-                  scales: {
-                      x: {
-                          title: {
-                              display: true,
-                              text: 'Number of Threads',
-                          },
-                          min: 1,
-                      },
-                      y: {
-                          title: {
-                              display: true,
-                              text: 'Speedup',
-                          },
-                          min: 0,
-                      },
-                  },
-                  plugins: {
-                      title: {
-                          display: true,
-                          text: 'Speedup'
-                      },
-                      legend: {
-                          display: false,
-                      },
-                  },
-              },
-          }
-      );
-
-      function recalculateBarData() {
-          return [100 - getPercentParallel(), getPercentParallel()];
+          document
+            .getElementById(`element-${i}`)
+            .classList.add(`thread-${currentThread}`);
+        }
       }
 
-      let chartBar = new Chart(
-          document.getElementById('chart_bar'),
-          {
-              type: 'bar',
-              data: {
-                  labels: ['Sequential', 'Parallel'],
-                  datasets: [
-                      {
-                          label: 'Sequential',
-                          backgroundColor: 'rgb(255, 99, 132)',
-                          borderColor: 'rgb(255, 99, 132)',
-                          data: recalculateBarData(),
-                      },
-                  ],
-              },
-              options: {
-                  indexAxis: 'y',
-                  scales: {
-                      x: {
-                          title: {
-                              display: true,
-                              text: '% of Code',
-                          },
-                          min: 0,
-                          max: 100,
-                      },
-                      y: {},
-                  },
-                  plugins: {
-                      title: {
-                          display: true,
-                          text: 'Parallelized'
-                      },
-                      legend: {
-                          display: false,
-                      },
-                  },
-              },
-          }
-      );
+      function getNextElementStaticSchedule(processor) {
+        return document.querySelector(`.array-element-active.${processor.id}`);
+      }
 
-      $(".update-chart").change(function () {
-          chartRuntime.data.datasets[0].data = recalculateData();
-          chartRuntime.update();
-          chartSpeedup.data.datasets[0].data = recalculateDataSpeedup();
-          chartSpeedup.update();
-          chartBar.data.datasets[0].data = recalculateBarData();
-          chartBar.update();
-      });
+      function applyDynamic(num_elements) {
+        for (let i = 0; i < num_elements; i++) {
+          document
+            .getElementById(`element-${i}`)
+            .classList.add(`dynamic-queue`);
+        }
+      }
+
+      function updateDynamicQueue(blockSize, processor) {
+        let nextElement = document.querySelector(
+          `.array-element-active.${processor.id}`
+        );
+        if (nextElement === null) {
+          Array.from(
+            document.querySelectorAll(`.array-element-active.dynamic-queue`)
+          )
+            .slice(0, blockSize)
+            .forEach((item, index) => {
+              item.classList.remove("dynamic-queue");
+              item.classList.add(processor.id);
+              if (index === 0) {
+                nextElement = item;
+              }
+            });
+        }
+        return nextElement;
+      }
+
+      function getNextElementDynamicSchedule(blockSize, processor) {
+        if (blockSize === "default") {
+          blockSize = 1;
+        }
+        return updateDynamicQueue(blockSize, processor);
+      }
+
+      function getNextElementGuidedSchedule(blockSize, num_threads, processor) {
+        if (blockSize === "default") {
+          blockSize = 1;
+        }
+
+        blockSize = Math.max(
+          blockSize,
+          Math.floor(
+            (0.75 * page.querySelectorAll(".array-element-active").length) /
+              num_threads
+          )
+        );
+        return updateDynamicQueue(blockSize, processor);
+      }
+
+      function createThreads(num_threads, nextElementFunction) {
+        for (let i = 0; i < num_threads; i++) {
+          let newThread = document
+            .getElementById("processor-template")
+            .cloneNode(true);
+          newThread.setAttribute("id", `thread-${i}`);
+          newThread.classList.add(`thread-${i}`);
+          newThread.classList.remove("invisible");
+
+          setPosition(
+            newThread,
+            getAnchorRelativeTo(
+              document.getElementById("array-border"),
+              "north east",
+              page
+            ),
+            "west",
+            () => {
+              setPosition(
+                newThread,
+                getAnchorRelativeTo(
+                  document.getElementById("array-border"),
+                  "north east",
+                  page
+                ),
+                "west",
+                () => {
+                  advanceProcess(newThread, nextElementFunction);
+                },
+                { duration: 0 }
+              );
+            },
+            { duration: 0 }
+          );
+          document.getElementById("page").appendChild(newThread);
+        }
+      }
+
+      function workOnNode(node, processor, nextElementFunction) {
+        let waitTime =
+          stepTime * (1 - stepRandom + Math.random() * stepRandom * 2);
+        setTimeout(() => {
+          if (node.textContent.trim().length === 0) {
+            node.classList.remove("array-element-active");
+            node.classList.add("array-element-inactive");
+            advanceProcess(processor, nextElementFunction);
+          } else {
+            node.textContent = node.textContent.substring(1);
+            workOnNode(node, processor, nextElementFunction);
+          }
+        }, waitTime * 1000);
+      }
+
+      function advanceProcess(processor, nextElementFunction) {
+        let nextElement = nextElementFunction(processor);
+
+        if (nextElement === null) {
+          // The end
+          setPosition(
+            processor,
+            getAnchorRelativeTo(
+              document.getElementById("array-border"),
+              "south east",
+              page
+            ),
+            "west",
+            () => {
+              if (
+                document.querySelectorAll(".array-element-active").length === 0
+              ) {
+                stopTimer();
+              }
+            }
+          );
+        } else {
+          setPosition(
+            processor,
+            new Point(
+              getAnchorRelativeTo(
+                document.getElementById("array-border"),
+                "east",
+                page
+              ).x,
+              getAnchorRelativeTo(nextElement, "east", page).y
+            ),
+            "west",
+            () => workOnNode(nextElement, processor, nextElementFunction)
+          );
+        }
+      }
+
+      let timerNode = document.getElementById("timer-time");
+      let timerStart = null;
+      let timerEvent = null;
+
+      function updateTimer() {
+        timerNode.textContent =
+          "Elapsed: " +
+          ((new Date().getTime() - timerStart) / 1000).toFixed(1) +
+          "s";
+      }
+
+      function startTimer() {
+        stopTimer();
+        timerStart = new Date().getTime();
+        timerEvent = setInterval(() => updateTimer(), 100);
+      }
+
+      function stopTimer() {
+        if (timerEvent != null) {
+          clearInterval(timerEvent);
+        }
+      }
+
+      function resetAnimation() {
+        page
+          .querySelectorAll("#array-container")
+          .forEach((element) => element.remove());
+        page
+          .querySelectorAll(".processor")
+          .forEach((element) => element.remove());
+
+        page.innerHTML += `
+                <div id="array-container">
+                    <div id="array-border">
+                    </div>
+                </div>`;
+
+        let numElements = document.querySelector("#formNumElements").value;
+        let numThreads = document.querySelector("#formNumThreads").value;
+        let blockSize = document.querySelector("#formBlockSize").value;
+        stepTime = document.querySelector("#formTimeLength").value;
+        stepRandom = document.querySelector("#formTimeRandom").value;
+
+        generateElements(numElements);
+        switch (document.querySelector("#formSchedule").value) {
+          case "static":
+            applyStatic(blockSize, numThreads, numElements);
+            createThreads(numThreads, getNextElementStaticSchedule);
+            document.querySelector("#schedule-title").textContent =
+              "OpenMP Static Schedule";
+            document.querySelector("#schedule-description").innerHTML = `
+                When kind is static, iterations are divided into chunks of size chunk_size, and the chunks are assigned
+                to the threads in the team in a round-robin fashion in the order of the thread number. Each chunk
+                contains chunk_size iterations, except for the chunk that contains the sequentially last iteration,
+                which may have fewer iterations.<br>
+	            When no chunk_size is specified, the iteration space is divided into chunks that are approximately equal
+                in size, and at most one chunk is distributed to each thread.
+                The size of the chunks is unspecified in this case.`;
+            document.querySelector("#schedule-code").innerHTML = `
+#pragma omp parallel for schedule(static, chunk_size)
+                `;
+            break;
+          case "dynamic":
+            applyDynamic(numElements);
+            createThreads(numThreads, (item) =>
+              getNextElementDynamicSchedule(blockSize, item)
+            );
+            document.querySelector("#schedule-title").textContent =
+              "OpenMP Dynamic Schedule";
+            document.querySelector("#schedule-description").innerHTML = `
+                When kind is dynamic, the iterations are distributed to threads in the team in chunks. Each thread
+                executes a chunk of iterations, then requests another chunk, until no chunks remain to be distributed.
+	            Each chunk contains chunk_size iterations, except for the chunk that contains the sequentially last
+	            iteration, which may have fewer iterations.<br>
+	            When no chunk_size is specified, it defaults to 1.`;
+            document.querySelector("#schedule-code").innerHTML = `
+#pragma omp parallel for schedule(dynamic, chunk_size)
+                `;
+            break;
+          case "guided":
+            applyDynamic(numElements);
+            createThreads(numThreads, (item) =>
+              getNextElementGuidedSchedule(blockSize, numThreads, item)
+            );
+            document.querySelector("#schedule-title").textContent =
+              "OpenMP Guided Schedule";
+            document.querySelector("#schedule-description").innerHTML = `
+                When kind is guided, the iterations are assigned to threads in the team in chunks. Each thread executes
+                a chunk of iterations, then requests another chunk, until no chunks remain to be assigned.<br>
+	            For a chunk_size of 1, the size of each chunk is proportional to the number of unassigned iterations
+                divided by the number of threads in the team, decreasing to 1. For a chunk_size with value k (greater
+                than 1), the size of each chunk is determined in the same way, with the restriction that the chunks do
+                not contain fewer than k iterations (except for the chunk that contains the sequentially last iteration,
+                which may have fewer than k iterations).<br>
+	            When no chunk_size is specified, it defaults to 1. `;
+            document.querySelector("#schedule-code").innerHTML = `
+#pragma omp parallel for schedule(guided, chunk_size)
+                `;
+            break;
+        }
+
+        document
+          .querySelector("#schedule-description-citation")
+          .classList.remove("invisible");
+        startTimer();
+      }
+
+      document.querySelector("#startButton").onclick = resetAnimation;
     </script>
   </body>
 </html>
